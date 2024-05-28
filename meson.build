@@ -9,6 +9,7 @@ deps = [glib]
 lib_obj = static_library(
   'lib',
   'src/lib.c',
+  dependencies: deps,
   include_directories: include_directories('.')
 )
 
@@ -20,8 +21,18 @@ executable(
 )
 
 test(
-  'testsuite',
-  executable('testsuite', 'tests/test.c', dependencies: deps, link_with: lib_obj),
+  'unit',
+  executable('unit', 'tests/unit.c', dependencies: deps, link_with: lib_obj),
+  env: [
+    'G_TEST_SRCDIR=@0@'.format(meson.current_source_dir()),
+    'G_TEST_BUILDDIR=@0@'.format(meson.current_build_dir()),
+  ],
+  protocol: 'tap',
+)
+
+test(
+  'integration',
+  executable('integration', 'tests/integration.c', dependencies: deps, link_with: lib_obj),
   env: [
     'G_TEST_SRCDIR=@0@'.format(meson.current_source_dir()),
     'G_TEST_BUILDDIR=@0@'.format(meson.current_build_dir()),
