@@ -1,0 +1,5 @@
+{
+    "C_Cpp.default.configurationProvider": "mesonbuild.mesonbuild",
+    "C_Cpp.default.compileCommands": "/home/matteo/Scrivania/prova/builddir/compile_commands.json",
+    "cmake.configureOnOpen": false
+}
