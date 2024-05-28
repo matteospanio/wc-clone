@@ -29,6 +29,8 @@ typedef struct arguments
   GList *files;
 } args_t;
 
+static void print_list (GList *list) __attribute_maybe_unused__;
+
 static error_t
 parse_opt (int key, char *arg, struct argp_state *state)
 {
@@ -75,18 +77,20 @@ main (int argc, char **argv)
   int result;
   argp_parse (&argp, argc, argv, 0, 0, &arguments);
 
-  if (arguments.files != NULL) {
-    GList *l;
-    for (l = arguments.files; l != NULL; l = l->next)
+  if (arguments.files != NULL)
     {
-      result = run (l->data, arguments.bytes, arguments.lines,
-                    arguments.words);
+      GList *l;
+      for (l = arguments.files; l != NULL; l = l->next)
+        {
+          result = run (l->data, arguments.bytes, arguments.lines,
+                        arguments.words);
+        }
+      g_list_free (arguments.files);
     }
-    g_list_free (arguments.files);
-  } else {
-    result = run (NULL, arguments.bytes, arguments.lines,
-                  arguments.words);
-  }
+  else
+    {
+      result = run (NULL, arguments.bytes, arguments.lines, arguments.words);
+    }
 
-  exit(result);
+  exit (result);
 }
